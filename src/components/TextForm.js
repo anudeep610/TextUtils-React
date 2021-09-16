@@ -39,7 +39,7 @@ export default function TextForm(props) {
     let words,chars;
     if(text==="" || text[text.length-1]===" ")
     {
-        words=text.split(" ").length-1;
+        words=text.split(/\s+/).length-1;
         if(text==="")
             chars=0;
         else
