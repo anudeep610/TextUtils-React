@@ -1,45 +1,54 @@
 import './App.css';
-// import About from './components/About';
+import About from "./components/About";
 import Navbar from './components/Navbar';
 import TextForm from './components/TextForm';
 import React, { useState } from 'react'
 import Alert from './components/Alert';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+
 
 function App() {
   const [mode, setMode] = useState("light");
   const [alert, setAlert] = useState(null);
-  const showAlert=(message,type)=>{
+  const showAlert = (message, type) => {
     setAlert({
-      message:message,
-      type:type
+      message: message,
+      type: type
     });
-    setTimeout(()=>{
+    setTimeout(() => {
       setAlert(null);
-    },2000);
+    }, 1800);
   }
-  const toggleMode=()=>{
-    if(mode==="light")
-    {
+  const toggleMode = () => {
+    if (mode === "light") {
       setMode("dark");
-      document.body.style.backgroundColor="black";
-      document.body.style.color="white";
-      showAlert("Dark mode has been enabled","success");
+      document.body.style.backgroundColor = "black";
+      document.body.style.color = "white";
+      showAlert("Dark mode has been enabled", "success");
     }
-    else{
+    else {
       setMode("light");
-      document.body.style.backgroundColor="white";
-      document.body.style.color="black";
-      showAlert("Dark mode has been disabled","success");
+      document.body.style.backgroundColor = "white";
+      document.body.style.color = "black";
+      showAlert("Dark mode has been disabled", "success");
     }
   }
   return (
     <>
-    <Navbar title="TextUtils" aboutText="About textUtils" toggleMode={toggleMode} mode={mode}/>
-    <Alert alert={alert}/>
-    <div className="container my-3">
-    <TextForm showAlert={showAlert} heading="Enter your Text Below" mode={mode} />
-    {/* <About /> */}
-    </div>
+      <Router>
+        <Navbar title="TextUtils" aboutText="About textUtils" toggleMode={toggleMode} mode={mode} />
+        <Alert alert={alert} />
+        <div className="container my-3">
+          <Switch>
+            <Route exact path="/about">
+              <About />
+            </Route>
+            <Route exact path="/">
+              <TextForm showAlert={showAlert} heading="Enter your Text Below" mode={mode} />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
     </>
   );
 }
